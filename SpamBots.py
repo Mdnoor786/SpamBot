@@ -353,7 +353,7 @@ async def _(e):
 @edk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
 @ddk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
 async def _(e):
-if e.sender.id in SMEX_USERS:
+    if e.sender.id in SMEX_USERS:
         ok = await e.reply("`...`")
         set = e.pattern_match.group(1)
         try:
