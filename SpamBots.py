@@ -28,7 +28,7 @@ from telethon.tl.functions.photos import (
     UploadProfilePhotoRequest,
 )
 
-MEGIC_GUY = 
+MEGIC_GUY = 1415798813
 from telethon.tl.types import InputPhoto
 from telethon.tl.functions.messages import GetFullChatRequest, ImportChatInviteRequest
 
