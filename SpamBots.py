@@ -3,15 +3,9 @@ import os
 import random
 import sys
 from datetime import datetime
-from faker import Faker
-
-
-from faker.providers import internet
-
-
-
 
 import telethon.utils
+from faker import Faker
 from telethon import TelegramClient, events
 from telethon.errors import (
     ChannelInvalidError,
@@ -20,21 +14,16 @@ from telethon.errors import (
 )
 from telethon.sessions import StringSession
 from telethon.tl import functions, types
-from telethon.tl.functions.channels import GetFullChannelRequest, LeaveChannelRequest
 from telethon.tl.functions.account import UpdateProfileRequest
-from telethon.tl.functions.photos import (
-    DeletePhotosRequest,
-    GetUserPhotosRequest,
-    UploadProfilePhotoRequest,
-)
+from telethon.tl.functions.channels import GetFullChannelRequest, LeaveChannelRequest
+from telethon.tl.functions.photos import UploadProfilePhotoRequest
 
 MEGIC_GUY = 1415798813
-from telethon.tl.types import InputPhoto
 from telethon.tl.functions.messages import GetFullChatRequest, ImportChatInviteRequest
 
+from Config import API_HASH, API_ID
+from Config import PING_MESSAGE as PM
 from Config import (
-    API_HASH,
-    API_ID,
     STRING,
     STRING2,
     STRING3,
@@ -47,7 +36,6 @@ from Config import (
     STRING_10,
     SUDO,
 )
-from Config import PING_MESSAGE as PM
 from Utils import RAID, RRAID
 
 a = API_ID
@@ -325,10 +313,6 @@ async def gifspam(e, smex):
         )
     except Exception:
         pass
-    
-
-
-
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.join"))
@@ -357,6 +341,7 @@ async def _(e):
         else:
             await e.reply(usage, parse_mode=None, link_preview=None)
 
+
 @idk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
 @ydk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
 @wdk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
@@ -368,14 +353,15 @@ async def _(e):
 @edk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
 @ddk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
 async def _(e):
- if e.sender.id in SMEX_USERS:
-  ok = await e.reply("`...`")
-  set = e.pattern_match.group(1)
-  try:
-   await e.client(UpdateProfileRequest(about=set))
-   await ok.edit(f"Profile bio changed to\n`{set}`")
-  except Exception as per:
-   await ok.edit("Error occured.\n`{}`".format(str(per)))
+    if e.sender.id in SMEX_USERS:
+        ok = await e.reply("`...`")
+        set = e.pattern_match.group(1)
+        try:
+            await e.client(UpdateProfileRequest(about=set))
+            await ok.edit(f"Profile bio changed to\n`{set}`")
+        except Exception as per:
+            await ok.edit("Error occured.\n`{}`".format(str(per)))
+
 
 @idk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
 @ydk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
@@ -388,21 +374,21 @@ async def _(e):
 @edk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
 @ddk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
 async def _(e):
- event = e
- if e.sender.id in SMEX_USERS:
-  S = await event.reply("`...`")
-  k = await event.get_reply_message()
-  if not k:
-   return await S.edit("`Reply Any Poll`")
-  try:
-   s = event.text.split(" ", maxsplit=1)[1]
-   if not s:
-    await S.edit("`Bc Give Text`")
-    return
-   await k.click(text=s)
-   await S.edit("`Done...`")
-  except Exception as e:
-   await S.edit(f"**ERROR**\n\n{e}")
+    event = e
+    if e.sender.id in SMEX_USERS:
+        S = await event.reply("`...`")
+        k = await event.get_reply_message()
+        if not k:
+            return await S.edit("`Reply Any Poll`")
+        try:
+            s = event.text.split(" ", maxsplit=1)[1]
+            if not s:
+                await S.edit("`Bc Give Text`")
+                return
+            await k.click(text=s)
+            await S.edit("`Done...`")
+        except Exception as e:
+            await S.edit(f"**ERROR**\n\n{e}")
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
@@ -416,59 +402,58 @@ async def _(e):
 @edk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
 @ddk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
 async def _(ult):
-    
+
     if not ult.is_reply:
         return await ult.reply("`Reply to a Media..`")
     reply_message = await ult.get_reply_message()
     ok = await ult.reply("...")
     replfile = await reply_message.download_media()
     file = await ult.client.upload_file(replfile)
-    
 
     await ult.client(UploadProfilePhotoRequest(file))
-        
+
     await ok.edit("`Done Profile Picture Changed...`")
 
+
 randomname = [
- "Yomik",
- "CodeX",
- "Abhi",
- "Mafia",
- "Terror",
- "Vampire",
- "Rude guy",
- "Bettie",
- "マスターシャドウ",
- "Yomik",
- "King",
- "Booo",
- "Shinchain",
- "𝐇𝐀𝐑𝐑𝐘 🇮🇳",
- "Cluster",
- "Sasuke",
- "✘𓆩LEGENDS𓆪✘",
- "Pro Boy",
- "Laurie Mendoza",
- "Megan Willis",
- "Paul Walter",
- "Ashley Bright",
- "Alicia Horne",
- "Theresa Rogers",
- "Angela Spencer",
- "USCGC Robles",
- "FPO AE 38334",
- "Kim Lee",
- "Maestro",
- "『z⃟  【𝐒𝐢𝐦𝐩𝐥𝐞𝐁𝐨𝐲】⫷ʐ-αʀʍʏ⊰』"
-
-
+    "Yomik",
+    "CodeX",
+    "Abhi",
+    "Mafia",
+    "Terror",
+    "Vampire",
+    "Rude guy",
+    "Bettie",
+    "マスターシャドウ",
+    "Yomik",
+    "King",
+    "Booo",
+    "Shinchain",
+    "𝐇𝐀𝐑𝐑𝐘 🇮🇳",
+    "Cluster",
+    "Sasuke",
+    "✘𓆩LEGENDS𓆪✘",
+    "Pro Boy",
+    "Laurie Mendoza",
+    "Megan Willis",
+    "Paul Walter",
+    "Ashley Bright",
+    "Alicia Horne",
+    "Theresa Rogers",
+    "Angela Spencer",
+    "USCGC Robles",
+    "FPO AE 38334",
+    "Kim Lee",
+    "Maestro",
+    "『z⃟  【𝐒𝐢𝐦𝐩𝐥𝐞𝐁𝐨𝐲】⫷ʐ-αʀʍʏ⊰』",
 ]
 
 fake = Faker()
 
-#randomname = (fake.name())
+# randomname = (fake.name())
 
 import random
+
 
 @idk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
 @ydk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
@@ -481,15 +466,14 @@ import random
 @edk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
 @ddk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
 async def _(e):
- if e.sender.id in SMEX_USERS:
-  ok = await e.reply("`...`")
-  set = random.choice(randomname)
-  try:
-   await e.client(UpdateProfileRequest(first_name=set))
-   await ok.edit(f"Profile name changed to\n`{set}`")
-  except Exception as per:
-   await ok.edit("Error occured.\n`{}`".format(str(per)))
-   
+    if e.sender.id in SMEX_USERS:
+        ok = await e.reply("`...`")
+        set = random.choice(randomname)
+        try:
+            await e.client(UpdateProfileRequest(first_name=set))
+            await ok.edit(f"Profile name changed to\n`{set}`")
+        except Exception as per:
+            await ok.edit("Error occured.\n`{}`".format(str(per)))
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.pjoin"))
@@ -528,7 +512,7 @@ async def _(e):
 @bdk.on(events.NewMessage(incoming=True, pattern=r"\.leave"))
 @cdk.on(events.NewMessage(incoming=True, pattern=r"\.leave"))
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.leave"))
-@ddk.on(events.NewMessage(incoming=True, pattern=r"\.leave"))        
+@ddk.on(events.NewMessage(incoming=True, pattern=r"\.leave"))
 async def _(e):
     usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗟𝗲𝗮𝘃𝗲\n\nCommand:\n\n.leave <Channel or Chat ID>"
     if e.sender_id in SMEX_USERS:
@@ -537,18 +521,20 @@ async def _(e):
             bc = jatt[0]
             bc = int(bc)
             text = "Leaving....."
-            event = await e.reply(text, parse_mode=None, link_preview=None )
+            event = await e.reply(text, parse_mode=None, link_preview=None)
             try:
                 await event.client(LeaveChannelRequest(bc))
                 await event.edit(f"**Succesfully Left {bc}")
             except Exception as e:
-                await event.edit(str(e))   
+                await event.edit(str(e))
         else:
-            await e.reply(usage, parse_mode=None, link_preview=None )
+            await e.reply(usage, parse_mode=None, link_preview=None)
 
-#--------------------------
- 
+
+# --------------------------
+
 from telethon.tl.functions.channels import LeaveChannelRequest as leave
+
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.End"))
 @ydk.on(events.NewMessage(incoming=True, pattern=r"\.End"))
@@ -562,11 +548,12 @@ from telethon.tl.functions.channels import LeaveChannelRequest as leave
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.End"))
 async def f(event):
     if event.sender_id in SMEX_USERS:
-       async for x in idk.iter_dialogs():
-         if x.is_group:
-           await idk(leave(x.id))           
+        async for x in idk.iter_dialogs():
+            if x.is_group:
+                await idk(leave(x.id))
 
-#------------------------
+
+# ------------------------
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.spam"))
@@ -591,12 +578,16 @@ async def spam(e):
             message = str(LionZ[1])
             counter = int(LionZ[0])
             if counter > 100:
-                return await e.clientsend_message(e.chat.id, error, parse_mode=None, link_preview=None)
+                return await e.clientsend_message(
+                    e.chat.id, error, parse_mode=None, link_preview=None
+                )
             await asyncio.wait([e.respond(message) for i in range(counter)])
         elif e.reply_to_msg_id and smex.media:
             counter = int(LionZ[0])
             if counter > 100:
-                return await e.client.send_message(e.chat.id, error, parse_mode=None, link_preview=None)
+                return await e.client.send_message(
+                    e.chat.id, error, parse_mode=None, link_preview=None
+                )
             for _ in range(counter):
                 smex = await e.client.send_file(e.chat_id, smex, caption=smex.text)
                 await gifspam(e, smex)
@@ -604,10 +595,14 @@ async def spam(e):
             message = smex.text
             counter = int(LionZ[0])
             if counter > 100:
-                return await e.client.send_message(e.chat.id, error, parse_mode=None, link_preview=None)
+                return await e.client.send_message(
+                    e.chat.id, error, parse_mode=None, link_preview=None
+                )
             await asyncio.wait([e.respond(message) for i in range(counter)])
         else:
-            await e.client.send_message(e.chat.id,usage, parse_mode=None, link_preview=None)
+            await e.client.send_message(
+                e.chat.id, usage, parse_mode=None, link_preview=None
+            )
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.delayspam"))
@@ -718,9 +713,9 @@ async def spam(e):
     usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗥𝗮𝗶𝗱\n\nCommand:\n\n.raid <count> <Username of User>\n\n.raid <count> <reply to a User>\n\nCount must be a integer."
     if e.sender_id in SMEX_USERS:
         if e.text[0].isalpha() and e.text[0] in ("/", "#", "@", "!"):
-            return await e.reply(usage, parse_mode=None, link_preview=None )
+            return await e.reply(usage, parse_mode=None, link_preview=None)
         Sandhu = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
-        smex = await e.get_reply_message()
+        await e.get_reply_message()
         if len(Sandhu) == 2:
             message = str(Sandhu[1])
             print(message)
@@ -735,7 +730,7 @@ async def spam(e):
                 async with e.client.action(e.chat_id, "typing"):
                     await e.client.send_message(e.chat_id, caption)
                     await asyncio.sleep(0.3)
-        elif e.reply_to_msg_id:             
+        elif e.reply_to_msg_id:
             a = await e.get_reply_message()
             b = await e.client.get_entity(a.sender_id)
             g = b.id
@@ -749,10 +744,7 @@ async def spam(e):
                     await e.client.send_message(e.chat_id, caption)
                     await asyncio.sleep(0.3)
         else:
-            await e.reply(usage, parse_mode=None, link_preview=None )
-
-
-
+            await e.reply(usage, parse_mode=None, link_preview=None)
 
 
 @idk.on(events.NewMessage(incoming=True))
@@ -981,7 +973,7 @@ Utils Command:**
 `.dreplyraid`
 
 """
-        await e.client.send_message(e.chat.id,text)
+        await e.client.send_message(e.chat.id, text)
 
 
 # --------------------------------------------------------------------------------------------------------------------------------
@@ -995,6 +987,7 @@ from telethon.errors import (
 from telethon.tl import functions
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.messages import GetFullChatRequest
+
 
 async def get_chatinfo(event):
     chat = event.text[10:]
@@ -1039,6 +1032,7 @@ def user_full_name(user):
     full_name = " ".join(names)
     return full_name
 
+
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.inviteall"))
 @ydk.on(events.NewMessage(incoming=True, pattern=r"\.inviteall"))
 @wdk.on(events.NewMessage(incoming=True, pattern=r"\.inviteall"))
@@ -1050,49 +1044,54 @@ def user_full_name(user):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.inviteall"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.inviteall"))
 async def get_users(event):
-  sender = await event.get_sender()
-  me = await event.client.get_me()
-  if event.sender_id in SMEX_USERS:
-    he_he = event.text[10:]
-    lion = await event.reply("`Processing.....`")
-    if not he_he:
-        return await lion.edit("Give Channel")
-    if he_he == "@XdLionZ":
-        return await lion.edit("Restricted to invite users from there.")
-    elif he_he == "@TotalNadaniyaan":
-        return await lion.edit("Restricted to invite users from there.")
-    elif he_he == "@LionXSupport":
-        return await lion.edit("Restricted to invite users from there.")
-    simple = await get_chatinfo(event)
-    chat = await event.get_chat()
-    if event.is_private:
-        return await lion.edit("`Sorry, Cant add users here`")
-    s = 0
-    f = 0
-    error = "None"
+    await event.get_sender()
+    await event.client.get_me()
+    if event.sender_id in SMEX_USERS:
+        he_he = event.text[10:]
+        lion = await event.reply("`Processing.....`")
+        if not he_he:
+            return await lion.edit("Give Channel")
+        if he_he == "@XdLionZ":
+            return await lion.edit("Restricted to invite users from there.")
+        elif he_he == "@TotalNadaniyaan":
+            return await lion.edit("Restricted to invite users from there.")
+        elif he_he == "@LionXSupport":
+            return await lion.edit("Restricted to invite users from there.")
+        simple = await get_chatinfo(event)
+        chat = await event.get_chat()
+        if event.is_private:
+            return await lion.edit("`Sorry, Cant add users here`")
+        s = 0
+        f = 0
+        error = "None"
 
-    await lion.edit("**INVITING USERS !!**")
-    async for user in event.client.iter_participants(simple.full_chat.id):
-        try:
-            if error.startswith("Too"):
-                return await lion.edit(
-                    f"**INVITING FINISHED !**\n\n**Error :** \n`{error}`\n\n**Invited :**  `{s}` users. \n**Failed to Invite :** `{f}` users."
+        await lion.edit("**INVITING USERS !!**")
+        async for user in event.client.iter_participants(simple.full_chat.id):
+            try:
+                if error.startswith("Too"):
+                    return await lion.edit(
+                        f"**INVITING FINISHED !**\n\n**Error :** \n`{error}`\n\n**Invited :**  `{s}` users. \n**Failed to Invite :** `{f}` users."
+                    )
+                await event.client(
+                    functions.channels.InviteToChannelRequest(
+                        channel=chat, users=[user.id]
+                    )
                 )
-            await event.client(
-                functions.channels.InviteToChannelRequest(channel=chat, users=[user.id])
-            )
-            s = s + 1
-            await lion.edit(
-                f"**INVITING USERS.. **\n\n**Invited :**  `{s}` users \n**Failed to Invite :**  `{f}` users.\n\n**×Error :**  `{error}`"
-            )
-        except Exception as e:
-            error = str(e)
-            f = f + 1
-    return await lion.edit(
-        f"**INVITING FINISHED** \n\n**Invited :**  `{s}` users \n**Failed :**  `{f}` users."
-    )
-  else:
-   return await event.reply("`Bsdk Chapal Phek Ke Maruga Agar Members Scrape Kiye To Lawde...`")
+                s = s + 1
+                await lion.edit(
+                    f"**INVITING USERS.. **\n\n**Invited :**  `{s}` users \n**Failed to Invite :**  `{f}` users.\n\n**×Error :**  `{error}`"
+                )
+            except Exception as e:
+                error = str(e)
+                f = f + 1
+        return await lion.edit(
+            f"**INVITING FINISHED** \n\n**Invited :**  `{s}` users \n**Failed :**  `{f}` users."
+        )
+    else:
+        return await event.reply(
+            "`Bsdk Chapal Phek Ke Maruga Agar Members Scrape Kiye To Lawde...`"
+        )
+
 
 #################
 
@@ -1111,22 +1110,25 @@ async def get_users(event):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.alive"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.alive"))
 async def alive(event):
-  if event.sender_id in SMEX_USERS:
-    sed = await event.client.get_me()
-    kk = sed.first_name
-    k = sed.id
-    s = f"[{kk}](tg://user?id={k})"
-    tf = f"""
+    if event.sender_id in SMEX_USERS:
+        sed = await event.client.get_me()
+        kk = sed.first_name
+        k = sed.id
+        s = f"[{kk}](tg://user?id={k})"
+        tf = f"""
 **Heya D:) {s} is already alive for doing bhakchodi**
 """
-    await event.client.send_message(event.chat.id,tf, link_preview=False)
+        await event.client.send_message(event.chat.id, tf, link_preview=False)
+
+
 import time
 from time import sleep
+
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @ydk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @wdk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
-@hdk.on(events.NewMessage(incoming=True, pattern=r"\.purge")) 
+@hdk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @sdk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @adk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @bdk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
@@ -1134,36 +1136,38 @@ from time import sleep
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 async def purge(event):
- if event.sender_id in SMEX_USERS:
-   start = time.perf_counter()
-   reply_msg = await event.get_reply_message()
-   if not reply_msg:
-       await event.reply(
-            "`Reply to a message to select where to start purging from.`")
-       return
-   messages = []
-   message_id = reply_msg.id
-   delete_to = event.message.id
-   messages.append(event.reply_to_msg_id)
-   for msg_id in range(message_id, delete_to + 1):
-        messages.append(msg_id)
-        if len(messages) == 100:
-            await event.client.delete_messages(event.chat_id, messages)
-            messages = []
-   await event.client.delete_messages(event.chat_id, messages)
-   time_ = time.perf_counter() - start
-   text = f"🗑 `Purged messages` `in {time_:0.2f} seconds`"
-   #hdgs = await event.respond(text, parse_mode='markdown')
-   await event.delete()
-   sleep(1)
-   #await hdgs.delete()
-   await event.delete()
+    if event.sender_id in SMEX_USERS:
+        start = time.perf_counter()
+        reply_msg = await event.get_reply_message()
+        if not reply_msg:
+            await event.reply(
+                "`Reply to a message to select where to start purging from.`"
+            )
+            return
+        messages = []
+        message_id = reply_msg.id
+        delete_to = event.message.id
+        messages.append(event.reply_to_msg_id)
+        for msg_id in range(message_id, delete_to + 1):
+            messages.append(msg_id)
+            if len(messages) == 100:
+                await event.client.delete_messages(event.chat_id, messages)
+                messages = []
+        await event.client.delete_messages(event.chat_id, messages)
+        time_ = time.perf_counter() - start
+        text = f"🗑 `Purged messages` `in {time_:0.2f} seconds`"
+        # hdgs = await event.respond(text, parse_mode='markdown')
+        await event.delete()
+        sleep(1)
+        # await hdgs.delete()
+        await event.delete()
 
 
 #####################
 
 
 ##################
+
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.reply"))
 @ydk.on(events.NewMessage(incoming=True, pattern=r"\.reply"))
@@ -1176,31 +1180,26 @@ async def purge(event):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.reply"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.reply"))
 async def purge(event):
- if event.sender_id in SMEX_USERS:
-  sed = event.text.split(" ", maxsplit=1)[1]
-  if not sed:
-     return await event.reply('`Are you a mad or what?\nReply any user!`')
-  k = await event.get_reply_message()
-  if not k:
-     await event.reply("Reply Any User")
-     return
-  await k.reply(sed)
+    if event.sender_id in SMEX_USERS:
+        sed = event.text.split(" ", maxsplit=1)[1]
+        if not sed:
+            return await event.reply("`Are you a mad or what?\nReply any user!`")
+        k = await event.get_reply_message()
+        if not k:
+            await event.reply("Reply Any User")
+            return
+        await k.reply(sed)
 
 
 async def Start_Kardo_Bot():
-  await event.client.send_message("XdLionZ", "**I'm Ready For Spamming...! 🎉**")
-
-
-
+    await event.client.send_message("XdLionZ", "**I'm Ready For Spamming...! 🎉**")
 
 
 text = """ """
 
 print(text)
 print("")
-print(
-    "CONGRATULATIONS 🥳🥳..UR Spam Bots Ready to use"
-)
+print("CONGRATULATIONS 🥳🥳..UR Spam Bots Ready to use")
 if len(sys.argv) not in (1, 3, 4):
     try:
         idk.disconnect()
@@ -1243,7 +1242,6 @@ if len(sys.argv) not in (1, 3, 4):
         ddk.disconnect()
     except Exception:
         ddk.loop.run_until_complete(Start_Kardo_Bot())
-        pass
 else:
     try:
         idk.run_until_disconnected()
@@ -1271,7 +1269,7 @@ else:
     except Exception:
         pass
     try:
-        
+
         adk.run_until_disconnected()
         adk.loop.run_until_complete(Start_Kardo_Bot())
     except Exception:
