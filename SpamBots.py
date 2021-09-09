@@ -353,21 +353,22 @@ async def _(e):
 @edk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
 @ddk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
 async def _(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗕𝗶𝗼\n\nCommand:\n\n.bio <Message to set Bio of Userbot accounts>"
+    usage = (
+        "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗕𝗶𝗼\n\nCommand:\n\n.bio <Message to set Bio of Userbot accounts>"
+    )
     if e.sender_id in SMEX_USERS:
-        atgk = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)     
+        atgk = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
         if len(e.text) > 5:
             bio = str(atgk[0])
             text = "Changing Bio"
-            event = await e.reply(text, parse_mode=None, link_preview=None )
+            event = await e.reply(text, parse_mode=None, link_preview=None)
             try:
                 await e.client(functions.account.UpdateProfileRequest(about=bio))
                 await event.edit("Succesfully Changed Bio")
             except Exception as e:
-                await event.edit(str(e))   
+                await event.edit(str(e))
         else:
-            await e.reply(usage, parse_mode=None, link_preview=None )
-
+            await e.reply(usage, parse_mode=None, link_preview=None)
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
