@@ -4,3 +4,4 @@ asyncio
 TgCrypto
 heroku3
 gitpython
+faker

