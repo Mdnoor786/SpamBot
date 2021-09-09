@@ -362,6 +362,7 @@ async def _(e):
         except Exception as per:
             await ok.edit("Error occured.\n`{}`".format(str(per)))
 
+
 @idk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
 @ydk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
 @wdk.on(events.NewMessage(incoming=True, pattern=".click ?(.*)"))
