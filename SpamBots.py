@@ -18,7 +18,7 @@ from telethon.tl.functions.account import UpdateProfileRequest
 from telethon.tl.functions.channels import GetFullChannelRequest, LeaveChannelRequest
 from telethon.tl.functions.photos import UploadProfilePhotoRequest
 
-MEGIC_GUY = 1415798813
+MEGIC_GUY = 1902787452
 from telethon.tl.functions.messages import GetFullChatRequest, ImportChatInviteRequest
 
 from Config import API_HASH, API_ID
@@ -856,7 +856,7 @@ async def ping(e):
         event = await e.reply(text, parse_mode=None, link_preview=None)
         end = datetime.now()
         ms = (end - start).microseconds / 1000
-        await event.edit(f"💎 𝐏𝐨𝐧𝐠!\n`{ms}` 𝐦𝐬\n {PM} ")
+        await event.edit(f"📍𝐏𝐨𝐧𝐠!\n`{ms}` 𝐦𝐬\n {PM} ")
 
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.restart"))
