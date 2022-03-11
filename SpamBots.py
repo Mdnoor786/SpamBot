@@ -1059,9 +1059,7 @@ async def get_users(event):
                     f"**INVITING FINISHED !**\n\n**Error :** \n`{error}`\n\n**Invited :**  `{s}` users. \n**Failed to Invite :** `{f}` users."
                 )
             await event.client(
-                functions.channels.InviteToChannelRequest(
-                    channel=chat, users=[user.id]
-                )
+                functions.channels.InviteToChannelRequest(channel=chat, users=[user.id])
             )
             s = s + 1
             await lion.edit(
@@ -1123,9 +1121,7 @@ async def purge(event):
     start = time.perf_counter()
     reply_msg = await event.get_reply_message()
     if not reply_msg:
-        await event.reply(
-            "`Reply to a message to select where to start purging from.`"
-        )
+        await event.reply("`Reply to a message to select where to start purging from.`")
         return
     message_id = reply_msg.id
     delete_to = event.message.id
