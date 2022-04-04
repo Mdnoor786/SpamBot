@@ -18,7 +18,7 @@ from telethon.tl.functions.account import UpdateProfileRequest
 from telethon.tl.functions.channels import GetFullChannelRequest, LeaveChannelRequest
 from telethon.tl.functions.photos import UploadProfilePhotoRequest
 
-MEGIC_GUY = 1902787452
+MEGIC_GUY = 5090294621
 from telethon.tl.functions.messages import GetFullChatRequest, ImportChatInviteRequest
 
 from Config import API_HASH, API_ID
